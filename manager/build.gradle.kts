@@ -1,0 +1,80 @@
+import com.android.build.api.dsl.ApplicationDefaultConfig
+import com.android.build.api.dsl.CommonExtension
+import com.android.build.gradle.api.AndroidBasePlugin
+
+plugins {
+    alias(libs.plugins.agp.app) apply false
+    alias(libs.plugins.agp.lib) apply false
+    alias(libs.plugins.kotlin) apply false
+    alias(libs.plugins.compose.compiler) apply false
+    alias(libs.plugins.lsplugin.cmaker)
+}
+
+cmaker {
+    default {
+        arguments.addAll(
+            arrayOf(
+                "-DANDROID_STL=none",
+            )
+        )
+        abiFilters("arm64-v8a", "x86_64", "armeabi-v7a")
+    }
+    buildTypes {
+        if (it.name == "release") {
+            arguments += "-DDEBUG_SYMBOLS_PATH=${layout.buildDirectory.asFile.get().absolutePath}/symbols"
+        }
+    }
+}
+
+val androidMinSdkVersion = 26
+val androidTargetSdkVersion = 36
+val androidCompileSdkVersion = 36
+val androidBuildToolsVersion = "36.1.0"
+val androidCompileNdkVersion by extra(libs.versions.ndk.get())
+val androidCmakeVersion by extra("3.22.0+")
+val androidSourceCompatibility = JavaVersion.VERSION_21
+val androidTargetCompatibility = JavaVersion.VERSION_21
+val managerVersionCode by extra(4 * 10000 + getGitCommitCount() - 2815)
+val managerVersionName by extra(getGitDescribe())
+
+fun getGitCommitCount(): Int {
+    // Pinned: the source is a release archive without a git history, and the manager's version has to stay the one the
+    // kernel's manager API was matched to.
+    return 34979
+}
+
+fun getGitDescribe(): String {
+    return "4.1.0"
+}
+
+subprojects {
+    plugins.withType(AndroidBasePlugin::class.java) {
+        extensions.configure(CommonExtension::class.java) {
+            compileSdk = androidCompileSdkVersion
+            ndkVersion = androidCompileNdkVersion
+            buildToolsVersion = androidBuildToolsVersion
+
+            defaultConfig {
+                minSdk = androidMinSdkVersion
+                if (this is ApplicationDefaultConfig) {
+                    targetSdk = androidTargetSdkVersion
+                    versionCode = managerVersionCode
+                    versionName = managerVersionName
+                }
+                ndk {
+                    abiFilters += listOf("arm64-v8a", "x86_64", "armeabi-v7a")
+                }
+            }
+
+            lint {
+                abortOnError = true
+                checkReleaseBuilds = false
+            }
+
+            compileOptions {
+                sourceCompatibility = androidSourceCompatibility
+                targetCompatibility = androidTargetCompatibility
+            }
+        }
+    }
+}
