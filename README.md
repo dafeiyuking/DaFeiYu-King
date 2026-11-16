@@ -10,7 +10,7 @@
 | 内核驱动版本 | `32680` | `72164` |
 | 配套 LKM | 8 个 KMI，`KSU_PACKAGE_NAME=com.dfyking`、fish887 证书 | 8 个 KMI，4.1.0 配套包名/证书 |
 | 卡片透明度 | 40% / 60% / 80% / 100% 四档 | 0–100% 连续可调 |
-| Release | [v3.3.1-dfyking](https://github.com/dafeiyuking/DaFeiYu-King/releases/tag/v3.3.1-dfyking) | 大肥鱼King 4.1.0 |
+| Release | [v3.3.1-dfyking](https://github.com/dafeiyuking/DaFeiYu-King/releases/tag/v3.3.1-dfyking) | [大肥鱼King 4.1.0](https://github.com/dafeiyuking/DaFeiYu-King/releases/tag/v4.1.0-dafeiyu) |
 | 源码 | Release 里的 `DaFeiYu-King-3.3.1-source.tar.gz` | 本仓库 `main` |
 
 ## 怎么选
