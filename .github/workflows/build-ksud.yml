@@ -34,8 +34,9 @@ jobs:
           KSU_PACKAGE_NAME: com.dfyking
         run: |
           cd userspace/ksud
-          cargo ndk -t arm64-v8a -o /tmp/jniLibs build --release
-          ls -lh /tmp/jniLibs/arm64-v8a/libksud.so
+          cargo ndk -t arm64-v8a build --release
+          cp target/aarch64-linux-android/release/ksud /tmp/libksud.so
+          ls -lh /tmp/libksud.so
 
       - name: Upload libksud.so
         uses: actions/upload-artifact@v4
