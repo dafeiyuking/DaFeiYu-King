@@ -28,6 +28,7 @@
 - 安装：装 APK → 安装 → 直接安装（推荐）/ 使用本地 LKM → 重启
 - 一加 Ace 6 当前 ROM 可直接刷 Release 里的 `init_boot/init_boot_dfyking_32680.img` 到 `init_boot_b`
 - 只有 `android15-6.6` 实机验证；其余 7 个只做了编译 + 版本/包名/证书/vermagic 校验
+- **2026-11-18 修复**：重编的 `libksud.so` 缺少 `ksuinit`，刷写会报 `Failed to load ksuinit`；当前 APK / zip 已修复，请重新下载。
 
 ## 4.1.0 分支
 
